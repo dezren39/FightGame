@@ -355,14 +355,14 @@ function victoryAssessment(status, count, playerOne, playerTwo) {
     }
   }
   //if a player gets pushed outside of bounds, put them back into bounds
-  if (playerOne.location < 0  && victoryMessage.status == 0) {
+  if (playerOne.location < 0  && victoryMessage.status === 0) {
     victoryMessage.playerOne.location=0;
   }
-  if (playerTwo.location < 0 && victoryMessage.status == 0) {
+  if (playerTwo.location < 0 && victoryMessage.status === 0) {
     victoryMessage.playerTwo.location=0;
   }
   //if players appear to be pushed past each other, attempt to correct
-  if (distance < 0 && victoryMessage.status == 0) {
+  if (distance < 0 && victoryMessage.status === 0) {
     if (playerOne.location > 0) {
       victoryMessage.playerOne.location--;
     }
@@ -376,12 +376,12 @@ function victoryAssessment(status, count, playerOne, playerTwo) {
     outputDistance += "_";
     distance--;
   }
-  distance = victoryMessage.playerOne.location
+  distance = victoryMessage.playerOne.location;
   while (distance > 0) {
     outputDistanceOne += "_";
     distance--;
   }
-  distance = victoryMessage.playerTwo.location
+  distance = victoryMessage.playerTwo.location;
   while (distance > 0) {
     outputDistanceTwo += "_";
     distance--;
@@ -402,11 +402,11 @@ function victoryAssessment(status, count, playerOne, playerTwo) {
   outputMessage += outputDistance;
   outputMessage += victoryMessage.playerTwo.action;
   outputMessage += outputDistanceTwo;
-  outputMessage += "<p>Key::</p><p>0=Evade</p>"
-  outputMessage += "<p>1=Parry, 2=Punch</p>"
-  outputMessage += "<p>3= Stab, 4=Slash</p><br>"
+  outputMessage += "<p>Key::</p><p>0=Evade</p>";
+  outputMessage += "<p>1=Parry, 2=Punch</p>";
+  outputMessage += "<p>3= Stab, 4=Slash</p><br>";
   //create or replace ASCII representation
-  outputBox.innerHTML = outputMessage
+  outputBox.innerHTML = outputMessage;
   return victoryMessage;
 }
 function victoryOutput(output) {
