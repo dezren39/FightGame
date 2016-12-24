@@ -1,16 +1,16 @@
-Title: Fight Game
-Author: Drewry Pope
-Date: 12/22/2016
-Version: 1.01
+#Fight Game<br>
+Author: Drewry Pope<br>
+Date: 12/22/2016<br>
+Version: 1.01<br>
 Description: This is a simple game ran with javascript prompts and w/ basic
              ouput displayed of the game's status. It can be played with one
-             or two players and is based around 5 moves:
-             Evade, Parry, Punch, Stab, and Slash.
----
-  1. Nouns and Verbs
-    
+             or two players and is based around 5 moves: Evade, Parry, Punch,
+             Stab, and Slash. Below is part of the digital documentation that
+             I made in preparation of coding the Fight Game program.
+             
+##  1. Nouns and Verbs
+   
     Problem Statement: 
-    
       Create a game that accepts one or two players names and lets them compete
       in a simulated fight. After receiving their names, it then accepts one of
       multiple fighting moves from each player. The player's chosen moves and
@@ -19,31 +19,26 @@ Description: This is a simple game ran with javascript prompts and w/ basic
       screen and there is a simple ASCII representation of the fight as well.
     
     Noun:
-    
       1-2 players, names, multiple fighting moves, chosen moves, 
       respective locations, victor, statistics, ASCII representation.
     
     Verbs:
-    
       compete, receive, accept, consider, chosen, output
   
-  2. Defining Diagram
+##  2. Defining Diagram
     
     Inputs:
-  
       PlayerOneName, PlayerOneAction, PlayerTwoName, PlayerTwoAction
     
-    Processing:
+    Processing: N/A
   
     Outputs:
-  
       PlayerOneName, PlayerOneAction, PlayerTwoName, PlayerTwoAction,
       PlayerOneLocation, PlayerTwoLocation, Victor, ASCII Output
   
-  3. Solution Algorithm
+##  3. Solution Algorithm
   
     FightGame
-  
       initialize playerOne.name
       initialize playerOne.action
       initialize playerOne.location to 1
@@ -52,12 +47,12 @@ Description: This is a simple game ran with javascript prompts and w/ basic
       initialize playerTwo.location to 1
       initialize count to 0
       initialize victory to 0
+      
       prompt the first user for playerOne.name with "Please enter a name for Player 1:"
       prompt the second user for playerTwo.name with "Please enter a name for Player 2:",
         default to 'Computer'
       
       WHILE victory is set to zero
-  
         prompt the first user for playerOne.action with "What is your move?"
         IF playerTwo.name does not equal "Computer"
           prompt the second user for playerTwo.action with 
@@ -78,8 +73,8 @@ Description: This is a simple game ran with javascript prompts and w/ basic
         add one to count
         output results of this loop
         display new ASCII representation of this loop
-  
       ENDWHILE
+      
       IF victory is 1
         output "Congratulations! " + PlayerOne + "is the victor. It took " +
               count + "rounds before " + PlayerTwo + " lost."
@@ -90,57 +85,57 @@ Description: This is a simple game ran with javascript prompts and w/ basic
   
       IF victory is 3
         output "You both lost. You killed each other."
-  
     END
   
-  4. Checking the solution Algorithm
+##  4. Checking the solution Algorithm
     
     Variables: PlayerOne.Action(1,2,3,...), PlayerTwo.Action(1,2,3,...), victory, count
+    
     Test Case 1:
-  
       Input Values:
-  
         PlayerOne.Action("Stab", "Stab")
-        PlayerTwo.Action("Stab", "Stab") 
+        PlayerTwo.Action("Stab", "Stab")
+        
       Expected Result:
-  
         PlayerOne.Action("Stab", "Stab")
         PlayerTwo.Action("Stab", "Stab") 
         victory = 3 
         count = 2
+        
       Actual Result: 
-  
         PlayerOne.Action("Stab", "Stab")
         PlayerTwo.Action("Stab", "Stab") 
         victory = 3 
         count = 2
+        
     Test Case 2:
-  
       Input Values:
-  
         PlayerOne.Action("Slash", "Parry", "Punch")
         PlayerTwo.Action("Stab", "Stab", "Slash") 
+        
       Expected Result:
-  
         PlayerOne.Action("Slash", "Parry", "Punch")
         PlayerTwo.Action("Stab", "Stab", "Slash") 
         victory = 2
         count = 3
+        
       Actual Result: 
-  
         PlayerOne.Action("Slash", "Parry", "Punch")
         PlayerTwo.Action("Stab", "Stab", "Slash") 
         victory = 2 
         count = 3 
+        
     Test Case 3:
       Input Values:
         PlayerOne.Action("Evade", "Stab", "Punch")
         PlayerTwo.Action("Slash", "Stab", "Stab") 
+        
       Expected Result:
         PlayerOne.Action("Evade", "Stab", "Punch")
         PlayerTwo.Action("Slash", "Stab", "Stab") 
         victory = 1
         count = 3
+        
       Actual Result: 
         PlayerOne.Action("Evade", "Stab", "Punch")
         PlayerTwo.Action("Slash", "Stab", "Stab") 
@@ -150,11 +145,13 @@ Description: This is a simple game ran with javascript prompts and w/ basic
       Input Values:
         PlayerOne.Action("Punch", "Punch", "Punch", "Punch", "Punch", "Evade", "Stab")
         PlayerTwo.Action("Punch", "Punch", "Punch", "Punch", "Punch", "Parry", "Stab") 
+        
       Expected Result:
         PlayerOne.Action("Punch", "Punch", "Punch", "Punch", "Punch", "Evade", "Stab")
         PlayerTwo.Action("Punch", "Punch", "Punch", "Punch", "Punch", "Parry", "Stab") 
         victory = 3
         count = 7
+        
       Actual Result: 
         PlayerOne.Action("Punch", "Punch", "Punch", "Punch", "Punch", "Evade", "Stab")
         PlayerTwo.Action("Punch", "Punch", "Punch", "Punch", "Punch", "Parry", "Stab")
