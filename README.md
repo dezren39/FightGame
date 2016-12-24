@@ -6,7 +6,8 @@ Description: This is a simple game ran with javascript prompts and w/ basic
              ouput displayed of the game's status. It can be played with one
              or two players and is based around 5 moves: Evade, Parry, Punch,
              Stab, and Slash. Below is part of the digital documentation that
-             I made in preparation to code the Fight Game program.
+             I made in preparation to code the Fight Game program. I received
+             an A on this assignment.
              
 ##  1. Nouns and Verbs
    
