@@ -158,4 +158,260 @@ Description: This is a simple game ran with javascript prompts and w/ basic
         PlayerTwo.Action("Punch", "Punch", "Punch", "Punch", "Punch", "Parry", "Stab")
         victory = 3
         count = 7
----
+        
+## 5. Javascript Source
+
+      class playerProfile {
+        constructor(name, action, location) {
+          this.name = name;
+          this.action = action;
+          this.location = location;
+        }
+      }
+      class victoryProfile {
+        constructor(status, count, playerOne, playerTwo) {
+          this.status = status;
+          this.count = count;
+          this.playerOne = playerOne;
+          this.playerTwo = playerTwo;
+        }
+      }
+      function playerAction(name, location) {
+        //subfunction for random Computer moves
+        function randomIntBetween(min, max) {
+          return Math.round(Math.random() * (max - min) + min);
+        }
+        if (name != "Computer") {
+          var action; 
+          while(action != "Slash" && action != "Stab" && action != "Punch" &&
+                                   action != "Parry" && action != "Evade") {
+            if (location === 0) {
+              action = prompt (name + ", what is your move?\n" +
+                                "Slash|Stab|Punch|Parry");
+            } else {
+              action = prompt (name + ", what is your move?\n" +
+                                "Slash|Stab|Punch|Parry|Evade");
+            }
+          }
+          //convert action to number for easier use
+          switch (action) {
+            case "Evade":
+              return 0;
+            case "Parry":
+              return 1;
+            case "Punch":
+              return 2;
+            case "Stab":
+              return 3;
+            case "Slash":
+              return 4; 
+          }
+        } else {
+          if (location === 0) {
+            return randomIntBetween(1, 4);
+          } else return randomIntBetween(0,4);
+        }
+      }
+      //controls movement based on action number
+      function playerMove(action, location) {
+        if (location > 0 && location < 6) {
+          if (action === 0) {
+            return --location;
+          } else if (action == 1) {
+            return location;
+          } else return ++location;
+        } else if (location <= 0) {
+          if (action <= 1) {
+            return location;
+          } else return ++location;
+        } else return --location;
+      }
+      function victoryAssessment(status, count, playerOne, playerTwo) {
+        //determine distance between two players, assuming 0-6 scale
+        var distance = ((6-playerTwo.location) - playerOne.location);
+        //make a new victoryProfile object to store results of assessment
+        var victoryMessage = new victoryProfile(status, count, playerOne, playerTwo);
+        //initialize variables used to create ASCII 'land'
+        var outputDistance = "";
+        var outputDistanceOne = "";
+        var outputDistanceTwo = "";
+        var outputMessage;
+        //assign variable to article ID 'output', located ./index.html on a <p> tag.
+        var outputBox = document.getElementById("output");
+        //calculate effects of actions when players are at same location
+        if (distance <= 0) {
+          //playerOneAction -> playerTwoAction -> results 
+          switch (playerOne.action) {
+            case 0: //Evade
+              switch (playerTwo.action) {
+                case 3: //Stab
+                  victoryMessage.status += 2;
+                  break;
+                case 4: //Slash
+                  victoryMessage.status += 2;
+                  break;
+              }
+              break;
+            case 1: //Parry
+              switch (playerTwo.action) {
+                case 3: //Stab
+                  victoryMessage.playerTwo.location--;
+                  break;     
+                case 4: //Slash
+                  victoryMessage.playerOne.location--;
+                  victoryMessage.playerTwo.location--;
+                break;
+              }
+              break;  
+            case 2: //Punch
+              switch (playerTwo.action) {
+                case 1: //Parry
+                  victoryMessage.playerOne.location--;
+                  break;
+                case 3: //Stab
+                  victoryMessage.status++;
+                  break;
+                case 4: //Slash
+                  victoryMessage.status += 2;
+                  break;
+              }
+              break;
+            case 3: //Stab
+              switch (playerTwo.action) {
+                case 0: //Evade
+                  victoryMessage.status++;
+                  break;
+                case 1: //Parry
+                  victoryMessage.playerOne.location--;
+                  break;
+                case 2: //Punch
+                  victoryMessage.status++;
+                  break;
+                case 3: //Stab
+                  victoryMessage.status += 3;
+                  break;
+                case 4: //Slash
+                  victoryMessage.status++;
+                  break;
+              }
+              break;
+            case 4: //Slash
+              switch (playerTwo.action) {
+                case 0: //Evade
+                  victoryMessage.status++;
+                  break;
+                case 1: //Parry
+                  victoryMessage.playerOne.location--;
+                  victoryMessage.playerTwo.location--;
+                  break;
+                case 2: //Punch
+                  victoryMessage.status++;
+                  break;
+                case 3: //Stab
+                  victoryMessage.status += 2;
+                  break;
+              }
+          }
+          //effect if 'stab' is used at a distance of 1
+        } else if (distance == 1) {
+          if (playerOne.action == 3 && playerTwo.action != 1) {
+            victoryMessage.status++;
+          }
+          if (playerTwo.action == 3 && playerOne.action != 1) {
+            victoryMessage.status += 2;
+          }
+        }
+        //if a player gets pushed outside of bounds, put them back into bounds
+        if (playerOne.location < 0  && victoryMessage.status === 0) {
+          victoryMessage.playerOne.location=0;
+        }
+        if (playerTwo.location < 0 && victoryMessage.status === 0) {
+          victoryMessage.playerTwo.location=0;
+        }
+        //if players appear to be pushed past each other, attempt to correct
+        if (distance < 0 && victoryMessage.status === 0) {
+          if (playerOne.location > 0) {
+            victoryMessage.playerOne.location--;
+          }
+          if (playerTwo.location > 0) {
+            victoryMessage.playerTwo.location--;
+          }
+        }
+        //recalculate distance and generate ASCII land out of '_'
+        distance = ((6-victoryMessage.playerTwo.location) - victoryMessage.playerOne.location);
+        while (distance > 0) {
+          outputDistance += "_";
+          distance--;
+        }
+        distance = victoryMessage.playerOne.location;
+        while (distance > 0) {
+          outputDistanceOne += "_";
+          distance--;
+        }
+        distance = victoryMessage.playerTwo.location;
+        while (distance > 0) {
+          outputDistanceTwo += "_";
+          distance--;
+        }
+        //recalc distance, output current loop statistics
+        distance = ((6-victoryMessage.playerTwo.location) - victoryMessage.playerOne.location);
+        document.write("<p>|| Round: " + victoryMessage.count + " Win: ");
+        document.write(victoryMessage.status + " Distance: " + distance);
+        document.write(" || " + victoryMessage.playerOne.name + " loc: ");
+        document.write(victoryMessage.playerOne.location);
+        document.write(" act: " + victoryMessage.playerOne.action);
+        document.write(" | " + victoryMessage.playerTwo.action + " :act ");
+        document.write((6-victoryMessage.playerTwo.location) + "  :loc ");
+        document.write(victoryMessage.playerTwo.name + " ||</p>");
+        //generate ASCII representation
+        outputMessage = outputDistanceOne;
+        outputMessage += victoryMessage.playerOne.action;
+        outputMessage += outputDistance;
+        outputMessage += victoryMessage.playerTwo.action;
+        outputMessage += outputDistanceTwo;
+        outputMessage += "<p>Key::</p><p>0=Evade</p>";
+        outputMessage += "<p>1=Parry, 2=Punch</p>";
+        outputMessage += "<p>3= Stab, 4=Slash</p><br>";
+        //create or replace ASCII representation
+        outputBox.innerHTML = outputMessage;
+        return victoryMessage;
+      }
+      function victoryOutput(output) {
+        switch (output.status) {
+          case 1:
+            document.write(output.playerOne.name + " has won!" + 
+              " Congratulations!! It took " + output.count + " moves before " +
+              output.playerTwo.name + " fell."); 
+            break;
+          case 2:
+            document.write(output.playerTwo.name + " has won!" + 
+              " Congratulations!! It took " + output.count + " moves before " +
+              output.playerOne.name + " fell.");
+            break;
+          default:
+            document.write("You both lost!! You killed each other."); 
+        }
+      }
+      function fightGame() {
+        var playerOne = new playerProfile("Player One","", 1);
+        var playerTwo = new playerProfile("Computer","", 1);
+        var victoryMessage = new victoryProfile(0, 0, playerOne, playerTwo);
+        playerOne.name = prompt("Please provide a name for Player 1:", playerOne.name);
+        playerTwo.name = prompt("Please provide a name for Player 2:\n" +
+                           "(Leave as default to simulate opponent.)", playerTwo.name);
+        while (victoryMessage.status === 0) {
+          playerOne = victoryMessage.playerOne;
+          playerTwo = victoryMessage.playerTwo;
+          playerOne.action = playerAction(playerOne.name, playerOne.location);
+          playerTwo.action = playerAction(playerTwo.name, playerTwo.location);
+          playerOne.location = playerMove(playerOne.action, playerOne.location);
+          playerTwo.location = playerMove(playerTwo.action, playerTwo.location);
+          victoryMessage.count++;
+          victoryMessage = victoryAssessment(victoryMessage.status, victoryMessage.count, playerOne, playerTwo);
+        }
+        victoryOutput(victoryMessage);
+      }
+      function main() {
+        fightGame();
+      }
+      main();
