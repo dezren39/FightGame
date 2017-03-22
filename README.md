@@ -1,4 +1,4 @@
-#Fight Game<br>
+# Fight Game<br>
 Author: Drewry Pope<br>
 Date: 12/22/2016<br>
 Version: 1.01<br>
